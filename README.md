@@ -138,13 +138,13 @@ Alternativamente, o **MongoDB Java Driver** poderá ser utilizado para consultas
 
 ## 🧑‍💻 Equipe de Desenvolvimento
 
-| Nome                         | RA       | Função                     |
-| ---------------------------- | -------- | -------------------------- |
-| Paulo Cesar Whitehead Junior | 24018776 | Back-end / Integração      |
-| Nicolas Marques Linares      | 24015266 | Front-end / UI             |
-| Yago Sousa                   | 24015586 | Banco de Dados / Testes    |
-| Lucca Schroelder Scovini     | 24011609 | Documentação / Arquitetura |
-| Kaio Augusto Burilli         | 23020613 | Full Stack / Design        |
+| Nome                         | RA       |
+| ---------------------------- | -------- | 
+| Paulo Cesar Whitehead Junior | 24018776 |
+| Nicolas Marques Linares      | 24015266 | 
+| Yago Sousa                   | 24015586 | 
+| Lucca Schroelder Scovini     | 24011609 | 
+| Kaio Augusto Burilli         | 23020613 |
 
 ---
 

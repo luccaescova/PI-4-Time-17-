@@ -115,7 +115,7 @@ Alternativamente, o **MongoDB Java Driver** poderá ser utilizado para consultas
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/seuusuario/leiturar.git
+   git clone (https://github.com/luccaescova/PI-4-Time-17-.git)
    ```
 2. Acesse a pasta do backend:
 

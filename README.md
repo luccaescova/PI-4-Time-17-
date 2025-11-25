@@ -64,10 +64,16 @@ Seu objetivo é **democratizar o acesso à leitura** e **facilitar o aprendizado
 │   └── pom.xml
 │
 ├── 📁 frontend/
-│   ├── index.html
-│   ├── styles/
-│   ├── scripts/
-│   └── assets/
+│ frontend/
+  ├── pages/
+  │     ├── login.html
+  │     ├── favoritos.html
+  │     ├── questoes.html
+  ├── assets/
+  │     ├── css/
+  │     ├── js/
+  │     └── img/
+
 │
 ├── 📁 database/
 │   ├── mongo_collections/

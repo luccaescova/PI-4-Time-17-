@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leiturar</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #1E1E1E;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 200vh;
+    }
+
+    .container {
+        background-color: #C9FF8F;
+        width: 1000px;
+        margin-top: 100px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        padding: 25px 35px;
+        background-color: #C9FF8F;
+    }
+
+    .menu-icon {
+        width: 35px;
+        height: 10px;
+        background-color: black;
+        position: relative;
+        margin-right: 25px;
+    }
+
+    .menu-icon::before,
+    .menu-icon::after {
+        content: "";
+        width: 35px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        left: 0;
+    }
+
+    .menu-icon::before {
+        top: -8px;
+    }
+
+    .menu-icon::after {
+        top: 8px;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: black;
+    }
+
+    .content {
+        background-color: white;
+        margin: 30px auto;
+        width: 90%;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .question-title {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .question-box {
+        border: 1px solid #000;
+        padding: 15px;
+        border-radius: 4px;
+    }
+
+    .question-text {
+        margin-bottom: 15px;
+    }
+
+    .option {
+        margin-bottom: 10px;
+    }
+
+    .arrow {
+        text-align: right;
+        font-size: 32px;
+        font-weight: bold;
+        color: black;
+        margin-top: 15px;
+    }
+
+</style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="menu-icon"></div>
+            <div class="logo">Leiturar</div>
+        </header>
+
+        <div class="content">
+            <div class="question-title">Questão 1</div>
+
+            <div class="question-box">
+                <div class="question-text">
+                    1. 
+                </div>
+                <div class="option">
+                    <input type="radio" name="questao1" id="a">
+                    <label for="a">A) </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="questao1" id="b">
+                    <label for="b">B) </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="questao1" id="c">
+                    <label for="c">C) </label>
+                </div>
+                <div class="option">
+                    <input type="radio" name="questao1" id="d">
+                    <label for="d">D) </label>
+                </div>
+            </div>
+
+            <div class="arrow">→</div>
+        </div>
+    </div>
+
+</body>
+</html>

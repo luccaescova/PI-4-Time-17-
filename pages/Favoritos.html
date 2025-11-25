@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leiturar</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #1e1e1e;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      background-color: #d3ff9d;
+      width: 90%;
+      max-width: 1200px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* Barra lateral */
+    .sidebar {
+      background-color: #90ee90;
+      width: 220px;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      border-right: 2px solid #000;
+    }
+
+    .sidebar h2 {
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      margin-bottom: 40px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .menu a {
+      text-decoration: none;
+      color: black;
+      font-size: 18px;
+      border-bottom: 1px solid black;
+      padding-bottom: 5px;
+      transition: 0.3s;
+    }
+
+    .menu a:hover {
+      color: #333;
+    }
+
+    /* Conteúdo principal */
+    .content {
+      flex: 1;
+      background-color: white;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .search-icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .empty-message {
+      color: gray;
+      margin-top: 50px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        border-right: none;
+        border-bottom: 2px solid #000;
+      }
+
+      .content {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu">
+        <a href="#">Início</a>
+        <a href="#">Favoritos</a>
+        <a href="#">Tire sua dúvida</a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="topbar">
+        <div class="logo">☰ Leiturar</div>
+        <div class="search-icon">🔍</div>
+      </div>
+
+      <h3 class="section-title">Seus favoritos</h3>
+      <p class="empty-message">Sem livros favoritados</p>
+    </div>
+  </div>
+</body>
+</html>

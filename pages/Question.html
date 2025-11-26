@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leiturar</title>
+<title>Leiturar - Simulado</title>
 <style>
     body {
         margin: 0;
@@ -12,21 +12,22 @@
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        height: 200vh;
+        height: 100vh;
     }
 
     .container {
         background-color: #C9FF8F;
-        width: 1000px;
-        margin-top: 100px;
+        width: 900px;
+        margin-top: 50px;
         border-radius: 10px;
         overflow: hidden;
+        padding-bottom: 30px;
     }
 
     header {
         display: flex;
         align-items: center;
-        padding: 25px 35px;
+        padding: 20px 30px;
         background-color: #C9FF8F;
     }
 
@@ -35,7 +36,7 @@
         height: 10px;
         background-color: black;
         position: relative;
-        margin-right: 25px;
+        margin-right: 20px;
     }
 
     .menu-icon::before,
@@ -48,13 +49,8 @@
         left: 0;
     }
 
-    .menu-icon::before {
-        top: -8px;
-    }
-
-    .menu-icon::after {
-        top: 8px;
-    }
+    .menu-icon::before { top: -8px; }
+    .menu-icon::after { top: 8px; }
 
     .logo {
         font-size: 28px;
@@ -64,78 +60,290 @@
 
     .content {
         background-color: white;
-        margin: 30px auto;
+        margin: 20px auto;
         width: 90%;
-        padding: 20px;
+        padding: 22px;
         border-radius: 5px;
+        border: 1px solid #000;
     }
 
     .question-title {
         text-align: center;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
+        font-size: 22px;
     }
 
-    .question-box {
+    textarea.question-textarea {
+        width: 100%;
+        height: 120px;
+        font-size: 16px;
+        padding: 10px;
+        resize: vertical;
         border: 1px solid #000;
-        padding: 15px;
-        border-radius: 4px;
-    }
-
-    .question-text {
-        margin-bottom: 15px;
+        border-radius: 5px;
     }
 
     .option {
-        margin-bottom: 10px;
+        margin-top: 14px;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
     }
 
-    .arrow {
-        text-align: right;
-        font-size: 32px;
+    .option label {
+        width: 28px;
         font-weight: bold;
-        color: black;
-        margin-top: 15px;
     }
 
+    .option input[type="text"] {
+        width: calc(100% - 36px);
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #000;
+        border-radius: 4px;
+        margin-left: 8px;
+    }
+
+    /* PAGINAÇÃO */
+    .pagination {
+        display: flex;
+        list-style: none;
+        padding-left: 0;
+        justify-content: center;
+        margin-top: 22px;
+    }
+
+    .pagination li {
+        margin: 0 6px;
+    }
+
+    .page-link {
+        display: block;
+        padding: 8px 12px;
+        background: white;
+        border: 1px solid black;
+        text-decoration: none;
+        color: black;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .page-item.active .page-link {
+        background: #7CE96C;
+    }
+
+    .page-item.disabled .page-link {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: default;
+    }
+
+    /* pequena ajuda visual */
+    .controls {
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top:10px;
+    }
+
+    .save-button {
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: #2d9a2a;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <div class="menu-icon"></div>
-            <div class="logo">Leiturar</div>
-        </header>
+<div class="container">
+    <header>
+        <div class="menu-icon"></div>
+        <div class="logo">Leiturar</div>
+    </header>
 
-        <div class="content">
-            <div class="question-title">Questão 1</div>
+    <div class="content">
+        <div id="title" class="question-title">Questão 1</div>
 
-            <div class="question-box">
-                <div class="question-text">
-                    1. 
-                </div>
-                <div class="option">
-                    <input type="radio" name="questao1" id="a">
-                    <label for="a">A) </label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="questao1" id="b">
-                    <label for="b">B) </label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="questao1" id="c">
-                    <label for="c">C) </label>
-                </div>
-                <div class="option">
-                    <input type="radio" name="questao1" id="d">
-                    <label for="d">D) </label>
-                </div>
+        <!-- CAMPO PARA ESCREVER A PERGUNTA -->
+        <textarea id="questionText" class="question-textarea" placeholder="Digite aqui a pergunta..."></textarea>
+
+        <!-- ALTERNATIVAS -->
+        <div class="option">
+            <label for="altA">A)</label>
+            <input id="altA" type="text" placeholder="Digite a alternativa A">
+        </div>
+
+        <div class="option">
+            <label for="altB">B)</label>
+            <input id="altB" type="text" placeholder="Digite a alternativa B">
+        </div>
+
+        <div class="option">
+            <label for="altC">C)</label>
+            <input id="altC" type="text" placeholder="Digite a alternativa C">
+        </div>
+
+        <div class="option">
+            <label for="altD">D)</label>
+            <input id="altD" type="text" placeholder="Digite a alternativa D">
+        </div>
+
+        <div class="controls">
+            <div>
+                <!-- CONTROLES DA PAGINAÇÃO -->
+                <ul id="pagination" class="pagination" aria-label="...">
+                    <!-- Itens populados por JS -->
+                </ul>
             </div>
 
-            <div class="arrow">→</div>
+            <div>
+                <button id="saveBtn" class="save-button" title="Salvar localmente (memória da página)">Salvar</button>
+            </div>
         </div>
     </div>
+</div>
 
+<script>
+/*
+  Paginação funcional com 3 questões.
+  - Guarda as mudanças em memória (variável questions).
+  - Ao mudar de página, salva automaticamente a questão atual.
+  - Você pode clicar em Previous/Next ou no número da página.
+*/
+
+// Número total de questões
+const TOTAL = 3;
+
+// Estrutura que guarda cada questão (inicialmente vazia)
+let questions = Array.from({length: TOTAL}, (_, i) => ({
+  text: '', // texto da pergunta
+  alternatives: { A: '', B: '', C: '', D: '' }
+}));
+
+// índice da questão atualmente exibida (0-based)
+let currentIndex = 0;
+
+// elementos DOM
+const titleEl = document.getElementById('title');
+const qTextarea = document.getElementById('questionText');
+const altA = document.getElementById('altA');
+const altB = document.getElementById('altB');
+const altC = document.getElementById('altC');
+const altD = document.getElementById('altD');
+const paginationEl = document.getElementById('pagination');
+const saveBtn = document.getElementById('saveBtn');
+
+// função para renderizar a paginação
+function renderPagination() {
+  paginationEl.innerHTML = '';
+
+  // Previous
+  const prevLi = document.createElement('li');
+  prevLi.className = 'page-item' + (currentIndex === 0 ? ' disabled' : '');
+  const prevLink = document.createElement('a');
+  prevLink.className = 'page-link';
+  prevLink.textContent = 'Previous';
+  prevLink.href = '#';
+  prevLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentIndex > 0) goToQuestion(currentIndex - 1);
+  });
+  prevLi.appendChild(prevLink);
+  paginationEl.appendChild(prevLi);
+
+  // números
+  for (let i = 0; i < TOTAL; i++) {
+    const li = document.createElement('li');
+    li.className = 'page-item' + (i === currentIndex ? ' active' : '');
+    const a = document.createElement('a');
+    a.className = 'page-link';
+    a.href = '#';
+    a.textContent = (i + 1);
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      goToQuestion(i);
+    });
+    li.appendChild(a);
+    paginationEl.appendChild(li);
+  }
+
+  // Next
+  const nextLi = document.createElement('li');
+  nextLi.className = 'page-item' + (currentIndex === TOTAL - 1 ? ' disabled' : '');
+  const nextLink = document.createElement('a');
+  nextLink.className = 'page-link';
+  nextLink.textContent = 'Next';
+  nextLink.href = '#';
+  nextLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentIndex < TOTAL - 1) goToQuestion(currentIndex + 1);
+  });
+  nextLi.appendChild(nextLink);
+  paginationEl.appendChild(nextLi);
+}
+
+// carrega os valores da questão atual para os campos
+function loadQuestion(idx) {
+  const q = questions[idx];
+  titleEl.textContent = `Questão ${idx + 1}`;
+  qTextarea.value = q.text;
+  altA.value = q.alternatives.A;
+  altB.value = q.alternatives.B;
+  altC.value = q.alternatives.C;
+  altD.value = q.alternatives.D;
+}
+
+// salva os valores dos campos na estrutura questions
+function saveCurrentQuestion() {
+  const q = questions[currentIndex];
+  q.text = qTextarea.value;
+  q.alternatives.A = altA.value;
+  q.alternatives.B = altB.value;
+  q.alternatives.C = altC.value;
+  q.alternatives.D = altD.value;
+}
+
+// navega para a questão idx (0-based)
+function goToQuestion(idx) {
+  if (idx < 0 || idx >= TOTAL) return;
+  // salvar a atual antes de sair
+  saveCurrentQuestion();
+  currentIndex = idx;
+  loadQuestion(currentIndex);
+  renderPagination();
+}
+
+// salvar botão (opcional)
+saveBtn.addEventListener('click', () => {
+  saveCurrentQuestion();
+  // apenas feedback simples
+  saveBtn.textContent = 'Salvo ✓';
+  setTimeout(() => saveBtn.textContent = 'Salvar', 900);
+});
+
+// auto-save ao trocar de campo (melhora UX)
+[qTextarea, altA, altB, altC, altD].forEach(el => {
+  el.addEventListener('input', () => {
+    // salva em memória local (não persistente entre reloads)
+    saveCurrentQuestion();
+  });
+});
+
+// inicialização: (opcional) preencher com exemplos vazios ou demonstrativos
+// Se quiser, descomente exemplos:
+// questions[0].text = 'Exemplo: Qual é a capital do Brasil?';
+// questions[0].alternatives = {A:'Rio', B:'São Paulo', C:'Brasília', D:'Salvador'};
+
+// carregar primeira
+loadQuestion(0);
+renderPagination();
+
+</script>
 </body>
 </html>

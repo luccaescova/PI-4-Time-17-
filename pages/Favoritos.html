@@ -1,150 +1,201 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leiturar</title>
-  <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leiturar – Favoritos</title>
+
+<style>
     * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     body {
-      background-color: #1e1e1e;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background-color: #1E1E1E;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
     }
 
     .container {
-      display: flex;
-      background-color: #d3ff9d;
-      width: 90%;
-      max-width: 1200px;
-      border-radius: 10px;
-      overflow: hidden;
+        background-color: #C9FF8F;
+        width: 1000px;
+        min-height: 90vh;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 20px;
     }
 
-    /* Barra lateral */
-    .sidebar {
-      background-color: #90ee90;
-      width: 220px;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-      border-right: 2px solid #000;
+    /* HEADER */
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 25px 35px;
+        background-color: #C9FF8F;
+        border-bottom: 2px solid #000;
     }
 
-    .sidebar h2 {
-      display: flex;
-      align-items: center;
-      font-size: 22px;
-      margin-bottom: 40px;
+    .left-area {
+        display: flex;
+        align-items: center;
+        gap: 25px;
     }
 
-    .menu {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    .menu-icon {
+        width: 35px;
+        height: 10px;
+        background-color: black;
+        position: relative;
+        cursor: pointer;
     }
 
-    .menu a {
-      text-decoration: none;
-      color: black;
-      font-size: 18px;
-      border-bottom: 1px solid black;
-      padding-bottom: 5px;
-      transition: 0.3s;
+    .menu-icon::before,
+    .menu-icon::after {
+        content: "";
+        width: 35px;
+        height: 10px;
+        background-color: black;
+        position: absolute;
+        left: 0;
     }
 
-    .menu a:hover {
-      color: #333;
-    }
-
-    /* Conteúdo principal */
-    .content {
-      flex: 1;
-      background-color: white;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    .menu-icon::before { top: -8px; }
+    .menu-icon::after { top: 8px; }
 
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 24px;
-      font-weight: bold;
+        font-size: 28px;
+        font-weight: bold;
+        color: black;
     }
 
-    .search-icon {
-      font-size: 24px;
-      cursor: pointer;
+    /* SEARCH BAR */
+    .search-area {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 8px 12px;
+        border-radius: 20px;
+        border: 1px solid #333;
+        width: 260px;
+        font-size: 14px;
+    }
+
+    /* DROPDOWN MENU */
+    .dropdown-menu {
+        position: absolute;
+        top: 90px;
+        left: 35px;
+        background-color: #C9FF8F;
+        border: 2px solid black;
+        border-radius: 8px;
+        display: none;
+        flex-direction: column;
+        width: 180px;
+        z-index: 2000;
+    }
+
+    .dropdown-menu button {
+        padding: 12px;
+        background: #C9FF8F;
+        border: none;
+        border-bottom: 2px solid black;
+        cursor: pointer;
+        text-align: left;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .dropdown-menu button:hover {
+        background-color: #b7f07d;
+    }
+
+    .dropdown-menu button:last-child {
+        border-bottom: none;
+    }
+
+    /* CONTENT */
+    .content {
+        background-color: white;
+        width: 90%;
+        margin: 25px auto;
+        padding: 20px 30px;
+        border-radius: 10px;
+        border: 1px solid #000;
+        min-height: 400px;
     }
 
     .section-title {
-      font-size: 20px;
-      margin-bottom: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
     }
 
     .empty-message {
-      color: gray;
-      margin-top: 50px;
-      font-size: 16px;
-      text-align: center;
+        color: gray;
+        margin-top: 60px;
+        font-size: 18px;
+        text-align: center;
     }
 
-    /* Responsividade */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .sidebar {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-around;
-        border-right: none;
-        border-bottom: 2px solid #000;
-      }
-
-      .content {
-        padding: 20px;
-      }
-    }
-  </style>
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="sidebar">
-      <div class="menu">
-        <a href="#">Início</a>
-        <a href="#">Favoritos</a>
-        <a href="#">Tire sua dúvida</a>
-      </div>
-    </div>
 
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <div class="left-area">
+            <div class="menu-icon" onclick="toggleDropdown()"></div>
+            <div class="logo">Leiturar</div>
+        </div>
+
+        <div class="search-area">
+            <input class="search-input" type="search" placeholder="Pesquisar...">
+        </div>
+
+        <!-- DROPDOWN -->
+        <div id="dropdownMenu" class="dropdown-menu">
+            <button onclick="window.location.href='Menu.html'">Menu</button>
+            <button onclick="window.location.href='Favoritos.html'">Favoritos</button>
+            <button onclick="window.location.href='Duvidas.html'">Dúvidas</button>
+        </div>
+    </header>
+
+    <!-- CONTENT -->
     <div class="content">
-      <div class="topbar">
-        <div class="logo">☰ Leiturar</div>
-        <div class="search-icon">🔍</div>
-      </div>
+        <div class="section-title">Seus favoritos</div>
 
-      <h3 class="section-title">Seus favoritos</h3>
-      <p class="empty-message">Sem livros favoritados</p>
+        <p class="empty-message">Sem livros favoritados</p>
     </div>
-  </div>
+
+</div>
+
+<script>
+    function toggleDropdown() {
+        const menu = document.getElementById("dropdownMenu");
+        menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
+    window.addEventListener("click", function(e) {
+        const menu = document.getElementById("dropdownMenu");
+        const icon = document.querySelector(".menu-icon");
+
+        if (!menu.contains(e.target) && !icon.contains(e.target)) {
+            menu.style.display = "none";
+        }
+    });
+</script>
+
 </body>
 </html>

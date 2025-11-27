@@ -146,6 +146,12 @@
         justify-content: center;
         align-items: center;
     }
+    .btn-fav {
+    background-color: #8ec5ff;
+}
+.btn-fav:hover {
+    background-color: #6bb4ff;
+}
 
     .popup {
         background: #C9FF8F;
@@ -230,7 +236,7 @@
         <div id="dropdownMenu" class="dropdown-menu">
             <button onclick="window.location.href='Menu.html'">Menu</button>
             <button onclick="window.location.href='Favoritos.html'">Favoritos</button>
-            <button onclick="window.location.href='Duvidas.html'">Dúvidas</button>
+            <button onclick="window.location.href='ajuda.html'">Dúvidas</button>
         </div>
     </header>
 
@@ -270,6 +276,7 @@
     <div class="popup">
         <h2 id="popupTitle">Livro</h2>
         <button class="btn-ler" id="btnLer">Ler</button>
+        <button class="btn-fav" id="btnFavoritar">Favoritar</button>
         <button class="btn-questoes" onclick="window.location.href='Question.html'">Questões</button>
         <button class="btn-close" onclick="closePopup()">Fechar</button>
     </div>
@@ -278,6 +285,7 @@
 <script>
 
     /* POPUP */
+      /* POPUP */
     let currentBook = 1;
 
     function showPopup(bookNumber) {
@@ -288,10 +296,26 @@
         document.getElementById("btnLer").onclick = function() {
             window.location.href = "pdfs/livro" + bookNumber + ".pdf";
         };
+
+        document.getElementById("btnFavoritar").onclick = function() {
+            addToFavorites(bookNumber);
+        };
     }
 
     function closePopup() {
         document.getElementById("popupBg").style.display = "none";
+    }
+
+    /* FAVORITAR */
+    function addToFavorites(bookNumber) {
+        let favs = JSON.parse(localStorage.getItem("favoritos")) || [];
+
+        if (!favs.includes(bookNumber)) {
+            favs.push(bookNumber);
+            localStorage.setItem("favoritos", JSON.stringify(favs));
+        }
+
+        window.location.href = "Favoritos.html";
     }
 
     /* DROPDOWN MENU */
@@ -308,6 +332,7 @@
             menu.style.display = "none";
         }
     });
+
 
 </script>
 

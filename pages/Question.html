@@ -4,24 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Leiturar - Simulado</title>
+
 <style>
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background-color: #1E1E1E;
+
+        /* NOVO FUNDO MAIS BONITO */
+        background: linear-gradient(135deg, #1E1E1E, #2b4d1f, #3d7a2c);
+        background-size: cover;
+
         display: flex;
         justify-content: center;
         align-items: flex-start;
-        height: 100vh;
+        padding: 40px 0;
+        min-height: 100vh;
     }
 
     .container {
         background-color: #C9FF8F;
         width: 900px;
-        margin-top: 50px;
-        border-radius: 10px;
+        margin-top: 30px;
+
+        /* novo espaçamento para não ficar espremido */
+        padding-bottom: 40px;
+        border-radius: 12px;
         overflow: hidden;
-        padding-bottom: 30px;
+        box-shadow: 0px 0px 25px rgba(0,0,0,0.4);
     }
 
     header {
@@ -60,10 +69,10 @@
 
     .content {
         background-color: white;
-        margin: 20px auto;
+        margin: 25px auto;
         width: 90%;
-        padding: 22px;
-        border-radius: 5px;
+        padding: 28px;
+        border-radius: 7px;
         border: 1px solid #000;
     }
 
@@ -74,14 +83,10 @@
         font-size: 22px;
     }
 
-    textarea.question-textarea {
-        width: 100%;
-        height: 120px;
-        font-size: 16px;
-        padding: 10px;
-        resize: vertical;
-        border: 1px solid #000;
-        border-radius: 5px;
+    .question-text {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 22px;
     }
 
     .option {
@@ -89,20 +94,13 @@
         display: flex;
         align-items: center;
         font-size: 18px;
+        cursor: pointer;
     }
 
-    .option label {
-        width: 28px;
-        font-weight: bold;
-    }
-
-    .option input[type="text"] {
-        width: calc(100% - 36px);
-        padding: 8px;
-        font-size: 14px;
-        border: 1px solid #000;
-        border-radius: 4px;
-        margin-left: 8px;
+    .option input {
+        transform: scale(1.3);
+        margin-right: 10px;
+        cursor: pointer;
     }
 
     /* PAGINAÇÃO */
@@ -140,210 +138,242 @@
         cursor: default;
     }
 
-    /* pequena ajuda visual */
-    .controls {
-        display:flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top:10px;
-    }
-
-    .save-button {
-        padding: 8px 12px;
-        border-radius: 6px;
-        background: #2d9a2a;
+    /* BOTÃO ENVIAR (apenas na última questão) */
+    #submitBtn {
+        display: none;
+        margin-top: 25px;
+        padding: 12px 20px;
+        background-color: #2b8a2b;
         color: white;
+        font-size: 18px;
         border: none;
+        border-radius: 8px;
         cursor: pointer;
         font-weight: bold;
+        width: 100%;
+    }
+
+    #submitBtn:hover {
+        background-color: #247524;
     }
 </style>
 </head>
+
 <body>
 
 <div class="container">
+
     <header>
         <div class="menu-icon"></div>
         <div class="logo">Leiturar</div>
     </header>
 
     <div class="content">
+
         <div id="title" class="question-title">Questão 1</div>
 
-        <!-- CAMPO PARA ESCREVER A PERGUNTA -->
-        <textarea id="questionText" class="question-textarea" placeholder="Digite aqui a pergunta..."></textarea>
+        <div id="questionText" class="question-text"></div>
 
-        <!-- ALTERNATIVAS -->
-        <div class="option">
-            <label for="altA">A)</label>
-            <input id="altA" type="text" placeholder="Digite a alternativa A">
-        </div>
+        <label class="option">
+            <input type="radio" name="questao" id="altA">
+            <span id="textA"></span>
+        </label>
 
-        <div class="option">
-            <label for="altB">B)</label>
-            <input id="altB" type="text" placeholder="Digite a alternativa B">
-        </div>
+        <label class="option">
+            <input type="radio" name="questao" id="altB">
+            <span id="textB"></span>
+        </label>
 
-        <div class="option">
-            <label for="altC">C)</label>
-            <input id="altC" type="text" placeholder="Digite a alternativa C">
-        </div>
+        <label class="option">
+            <input type="radio" name="questao" id="altC">
+            <span id="textC"></span>
+        </label>
 
-        <div class="option">
-            <label for="altD">D)</label>
-            <input id="altD" type="text" placeholder="Digite a alternativa D">
-        </div>
+        <label class="option">
+            <input type="radio" name="questao" id="altD">
+            <span id="textD"></span>
+        </label>
 
-        <div class="controls">
-            <div>
-                <!-- CONTROLES DA PAGINAÇÃO -->
-                <ul id="pagination" class="pagination" aria-label="...">
-                    <!-- Itens populados por JS -->
-                </ul>
-            </div>
+        <ul id="pagination" class="pagination"></ul>
 
-            <div>
-                <button id="saveBtn" class="save-button" title="Salvar localmente (memória da página)">Salvar</button>
-            </div>
-        </div>
+        <!-- NOVO BOTÃO ENVIAR -->
+        <button id="submitBtn">Enviar respostas</button>
+
     </div>
 </div>
 
 <script>
-/*
-  Paginação funcional com 3 questões.
-  - Guarda as mudanças em memória (variável questions).
-  - Ao mudar de página, salva automaticamente a questão atual.
-  - Você pode clicar em Previous/Next ou no número da página.
-*/
+/* -------------------------------
+   QUESTÕES
+---------------------------------*/
+const questions = [
+    {
+        text: "Qual é a função principal de um sistema operacional?",
+        A: "Gerenciar o hardware e fornecer serviços para os programas.",
+        B: "Executar apenas jogos e aplicativos multimídia.",
+        C: "Criar documentos automaticamente.",
+        D: "Impedir que o usuário faça alterações no computador."
+    },
+    {
+        text: "O que significa 'multitarefa'?",
+        A: "Capacidade de executar vários programas ao mesmo tempo.",
+        B: "Capacidade de desligar o computador automaticamente.",
+        C: "Capacidade de armazenar arquivos na nuvem.",
+        D: "Capacidade de executar apenas um programa por vez."
+    },
+    {
+        text: "Qual dos itens abaixo NÃO é um sistema operacional?",
+        A: "Windows 10",
+        B: "Linux Ubuntu",
+        C: "Android",
+        D: "Google Chrome"
+    }
+];
 
-// Número total de questões
-const TOTAL = 3;
-
-// Estrutura que guarda cada questão (inicialmente vazia)
-let questions = Array.from({length: TOTAL}, (_, i) => ({
-  text: '', // texto da pergunta
-  alternatives: { A: '', B: '', C: '', D: '' }
-}));
-
-// índice da questão atualmente exibida (0-based)
+/* -------------------------------
+   ESTADO / CONTROLE
+---------------------------------*/
 let currentIndex = 0;
 
-// elementos DOM
-const titleEl = document.getElementById('title');
-const qTextarea = document.getElementById('questionText');
-const altA = document.getElementById('altA');
-const altB = document.getElementById('altB');
-const altC = document.getElementById('altC');
-const altD = document.getElementById('altD');
-const paginationEl = document.getElementById('pagination');
-const saveBtn = document.getElementById('saveBtn');
+// Array que armazena qual alternativa foi marcada em cada pergunta
+// Ex: ["A", "C", "B"]
+let selectedAnswers = [null, null, null];
 
-// função para renderizar a paginação
+/* -------------------------------
+   ELEMENTOS DA TELA
+---------------------------------*/
+const titleEl = document.getElementById("title");
+const qText = document.getElementById("questionText");
+const textA = document.getElementById("textA");
+const textB = document.getElementById("textB");
+const textC = document.getElementById("textC");
+const textD = document.getElementById("textD");
+const paginationEl = document.getElementById("pagination");
+const submitBtn = document.getElementById("submitBtn");
+
+/* -------------------------------
+   CARREGAR QUESTÃO NA TELA
+---------------------------------*/
+function loadQuestion(i) {
+    const q = questions[i];
+
+    titleEl.textContent = "Questão " + (i + 1);
+    qText.textContent = q.text;
+
+    textA.textContent = "A) " + q.A;
+    textB.textContent = "B) " + q.B;
+    textC.textContent = "C) " + q.C;
+    textD.textContent = "D) " + q.D;
+
+    // DESMARCA TODAS
+    document.querySelectorAll("[name='questao']").forEach(r => r.checked = false);
+
+    // MARCA A ANTERIOR SE EXISTIR
+    if (selectedAnswers[i]) {
+        document.getElementById("alt" + selectedAnswers[i]).checked = true;
+    }
+
+    // Mostrar botão ENVIAR apenas na última
+    submitBtn.style.display = (i === questions.length - 1) ? "block" : "none";
+
+    updateSubmitState();
+}
+
+/* -------------------------------
+   PAGINAÇÃO
+---------------------------------*/
 function renderPagination() {
-  paginationEl.innerHTML = '';
+    paginationEl.innerHTML = "";
 
-  // Previous
-  const prevLi = document.createElement('li');
-  prevLi.className = 'page-item' + (currentIndex === 0 ? ' disabled' : '');
-  const prevLink = document.createElement('a');
-  prevLink.className = 'page-link';
-  prevLink.textContent = 'Previous';
-  prevLink.href = '#';
-  prevLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentIndex > 0) goToQuestion(currentIndex - 1);
-  });
-  prevLi.appendChild(prevLink);
-  paginationEl.appendChild(prevLi);
+    paginationEl.innerHTML += `
+        <li class="page-item ${currentIndex === 0 ? "disabled" : ""}">
+            <a class="page-link" href="#" onclick="goTo(${currentIndex - 1})">Previous</a>
+        </li>
+    `;
 
-  // números
-  for (let i = 0; i < TOTAL; i++) {
-    const li = document.createElement('li');
-    li.className = 'page-item' + (i === currentIndex ? ' active' : '');
-    const a = document.createElement('a');
-    a.className = 'page-link';
-    a.href = '#';
-    a.textContent = (i + 1);
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      goToQuestion(i);
-    });
-    li.appendChild(a);
-    paginationEl.appendChild(li);
-  }
+    for (let i = 0; i < questions.length; i++) {
+        paginationEl.innerHTML += `
+            <li class="page-item ${i === currentIndex ? "active" : ""}">
+                <a class="page-link" href="#" onclick="goTo(${i})">${i + 1}</a>
+            </li>
+        `;
+    }
 
-  // Next
-  const nextLi = document.createElement('li');
-  nextLi.className = 'page-item' + (currentIndex === TOTAL - 1 ? ' disabled' : '');
-  const nextLink = document.createElement('a');
-  nextLink.className = 'page-link';
-  nextLink.textContent = 'Next';
-  nextLink.href = '#';
-  nextLink.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentIndex < TOTAL - 1) goToQuestion(currentIndex + 1);
-  });
-  nextLi.appendChild(nextLink);
-  paginationEl.appendChild(nextLi);
+    paginationEl.innerHTML += `
+        <li class="page-item ${currentIndex === questions.length - 1 ? "disabled" : ""}">
+            <a class="page-link" href="#" onclick="goTo(${currentIndex + 1})">Next</a>
+        </li>
+    `;
 }
 
-// carrega os valores da questão atual para os campos
-function loadQuestion(idx) {
-  const q = questions[idx];
-  titleEl.textContent = `Questão ${idx + 1}`;
-  qTextarea.value = q.text;
-  altA.value = q.alternatives.A;
-  altB.value = q.alternatives.B;
-  altC.value = q.alternatives.C;
-  altD.value = q.alternatives.D;
+/* -------------------------------
+   SALVA A RESPOSTA DA QUESTÃO ATUAL
+---------------------------------*/
+function saveAnswer() {
+    const selected = document.querySelector("[name='questao']:checked");
+
+    if (selected) {
+        selectedAnswers[currentIndex] = selected.id.replace("alt", "");
+    } else {
+        selectedAnswers[currentIndex] = null;
+    }
+
+    updateSubmitState();
 }
 
-// salva os valores dos campos na estrutura questions
-function saveCurrentQuestion() {
-  const q = questions[currentIndex];
-  q.text = qTextarea.value;
-  q.alternatives.A = altA.value;
-  q.alternatives.B = altB.value;
-  q.alternatives.C = altC.value;
-  q.alternatives.D = altD.value;
+/* -------------------------------
+   VERIFICA SE PODE ENVIAR
+---------------------------------*/
+function updateSubmitState() {
+    const allAnswered = selectedAnswers.every(ans => ans !== null);
+
+    if (allAnswered) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.style.cursor = "pointer";
+    } else {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.5";
+        submitBtn.style.cursor = "not-allowed";
+    }
 }
 
-// navega para a questão idx (0-based)
-function goToQuestion(idx) {
-  if (idx < 0 || idx >= TOTAL) return;
-  // salvar a atual antes de sair
-  saveCurrentQuestion();
-  currentIndex = idx;
-  loadQuestion(currentIndex);
-  renderPagination();
+/* -------------------------------
+   NAVEGAR ENTRE QUESTÕES
+---------------------------------*/
+function goTo(i) {
+    saveAnswer(); // <--- SALVA ANTES DE SAIR
+
+    if (i < 0 || i >= questions.length) return;
+
+    currentIndex = i;
+    loadQuestion(i);
+    renderPagination();
 }
 
-// salvar botão (opcional)
-saveBtn.addEventListener('click', () => {
-  saveCurrentQuestion();
-  // apenas feedback simples
-  saveBtn.textContent = 'Salvo ✓';
-  setTimeout(() => saveBtn.textContent = 'Salvar', 900);
+/* -------------------------------
+   BOTÃO ENVIAR
+---------------------------------*/
+submitBtn.addEventListener("click", () => {
+    if (selectedAnswers.every(a => a !== null)) {
+        alert("As respostas foram enviadas! (Correção será adicionada depois)");
+    }
 });
 
-// auto-save ao trocar de campo (melhora UX)
-[qTextarea, altA, altB, altC, altD].forEach(el => {
-  el.addEventListener('input', () => {
-    // salva em memória local (não persistente entre reloads)
-    saveCurrentQuestion();
-  });
+/* -------------------------------
+   CAPTURAR CLIQUES NAS ALTERNATIVAS
+---------------------------------*/
+document.querySelectorAll("[name='questao']").forEach(radio => {
+    radio.addEventListener("change", saveAnswer);
 });
 
-// inicialização: (opcional) preencher com exemplos vazios ou demonstrativos
-// Se quiser, descomente exemplos:
-// questions[0].text = 'Exemplo: Qual é a capital do Brasil?';
-// questions[0].alternatives = {A:'Rio', B:'São Paulo', C:'Brasília', D:'Salvador'};
-
-// carregar primeira
+/* -------------------------------
+   INICIALIZAÇÃO
+---------------------------------*/
 loadQuestion(0);
 renderPagination();
-
+updateSubmitState();
 </script>
+
 </body>
 </html>

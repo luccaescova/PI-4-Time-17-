@@ -6,12 +6,7 @@
 <title>Leiturar – Favoritos</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
         font-family: Arial, sans-serif;
         background-color: #1E1E1E;
@@ -27,17 +22,15 @@
         min-height: 90vh;
         border-radius: 10px;
         overflow: hidden;
-        position: relative;
         padding-bottom: 20px;
+        position: relative;
     }
 
-    /* HEADER */
     header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 25px 35px;
-        background-color: #C9FF8F;
         border-bottom: 2px solid #000;
     }
 
@@ -54,7 +47,6 @@
         position: relative;
         cursor: pointer;
     }
-
     .menu-icon::before,
     .menu-icon::after {
         content: "";
@@ -64,21 +56,10 @@
         position: absolute;
         left: 0;
     }
-
     .menu-icon::before { top: -8px; }
     .menu-icon::after { top: 8px; }
 
-    .logo {
-        font-size: 28px;
-        font-weight: bold;
-        color: black;
-    }
-
-    /* SEARCH BAR */
-    .search-area {
-        display: flex;
-        align-items: center;
-    }
+    .logo { font-size: 28px; font-weight: bold; }
 
     .search-input {
         padding: 8px 12px;
@@ -88,7 +69,6 @@
         font-size: 14px;
     }
 
-    /* DROPDOWN MENU */
     .dropdown-menu {
         position: absolute;
         top: 90px;
@@ -108,44 +88,85 @@
         border: none;
         border-bottom: 2px solid black;
         cursor: pointer;
-        text-align: left;
         font-size: 16px;
+        text-align: left;
         font-weight: bold;
     }
 
-    .dropdown-menu button:hover {
-        background-color: #b7f07d;
-    }
-
-    .dropdown-menu button:last-child {
-        border-bottom: none;
-    }
-
-    /* CONTENT */
     .content {
-        background-color: white;
-        width: 90%;
+        background: white;
         margin: 25px auto;
         padding: 20px 30px;
-        border-radius: 10px;
+        width: 90%;
         border: 1px solid #000;
+        border-radius: 8px;
         min-height: 400px;
     }
 
     .section-title {
         font-size: 24px;
         font-weight: bold;
-        margin-bottom: 15px;
-        color: #333;
     }
 
-    .empty-message {
-        color: gray;
-        margin-top: 60px;
-        font-size: 18px;
+    .books-row {
+        margin-top: 25px;
+        display: flex;
+        gap: 20px;
+        justify-content: start;
+        flex-wrap: wrap;
+    }
+
+    .book {
+        width: 30%;
+        background: #C9FF8F;
+        border: 2px solid #7cd957;
+        padding: 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.15s;
         text-align: center;
     }
 
+    .book img {
+        width: 100%;
+        height: 230px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    /* POPUP */
+    .popup-bg {
+        display: none;
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.6);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .popup {
+        background: #C9FF8F;
+        width: 330px;
+        padding: 25px;
+        border: 2px solid black;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .popup button {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid black;
+        margin-top: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .btn-ler { background: #7CD957; }
+    .btn-questoes { background: #FFF275; }
+    .btn-desfav { background: #ff6961; }
+    .btn-close { background: #ff3b3b; }
 </style>
 </head>
 
@@ -153,18 +174,14 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <header>
         <div class="left-area">
             <div class="menu-icon" onclick="toggleDropdown()"></div>
             <div class="logo">Leiturar</div>
         </div>
 
-        <div class="search-area">
-            <input class="search-input" type="search" placeholder="Pesquisar...">
-        </div>
+        <input class="search-input" type="search" placeholder="Pesquisar...">
 
-        <!-- DROPDOWN -->
         <div id="dropdownMenu" class="dropdown-menu">
             <button onclick="window.location.href='Menu.html'">Menu</button>
             <button onclick="window.location.href='Favoritos.html'">Favoritos</button>
@@ -172,16 +189,30 @@
         </div>
     </header>
 
-    <!-- CONTENT -->
     <div class="content">
         <div class="section-title">Seus favoritos</div>
 
-        <p class="empty-message">Sem livros favoritados</p>
+        <div class="books-row" id="booksList"></div>
+
+        <p class="empty-message" id="emptyMsg">Sem livros favoritados</p>
     </div>
 
 </div>
 
+<!-- POPUP -->
+<div class="popup-bg" id="popupBg">
+    <div class="popup">
+        <h2 id="popupTitle">Livro Favorito</h2>
+        <button class="btn-ler" id="btnLer">Ler</button>
+        <button class="btn-questoes" onclick="window.location.href='Question.html'">Questões</button>
+        <button class="btn-desfav" id="btnDesfavoritar">Desfavoritar</button>
+        <button class="btn-close" onclick="closePopup()">Fechar</button>
+    </div>
+</div>
+
 <script>
+
+    /* DROPDOWN */
     function toggleDropdown() {
         const menu = document.getElementById("dropdownMenu");
         menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
@@ -195,6 +226,62 @@
             menu.style.display = "none";
         }
     });
+
+    /* CARREGA FAVORITOS */
+    const favorites = JSON.parse(localStorage.getItem("favoritos")) || [];
+    const booksList = document.getElementById("booksList");
+    const emptyMsg = document.getElementById("emptyMsg");
+
+    function loadFavorites() {
+        if (favorites.length === 0) {
+            emptyMsg.style.display = "block";
+            return;
+        }
+
+        emptyMsg.style.display = "none";
+        booksList.innerHTML = "";
+
+        favorites.forEach(book => {
+            booksList.innerHTML += `
+                <div class="book" onclick="openFavPopup(${book})">
+                    <img src="img/livro${book}.jpg">
+                    <div class="book-title">Livro ${book}</div>
+                </div>
+            `;
+        });
+    }
+
+    loadFavorites();
+
+    /* POPUP FAVORITOS */
+    let currentBook = null;
+
+    function openFavPopup(bookNumber) {
+        currentBook = bookNumber;
+
+        document.getElementById("popupTitle").innerText = "Livro " + bookNumber;
+        document.getElementById("popupBg").style.display = "flex";
+
+        document.getElementById("btnLer").onclick = function() {
+            window.location.href = "pdfs/livro" + bookNumber + ".pdf";
+        };
+
+        document.getElementById("btnDesfavoritar").onclick = function() {
+            removeFavorite(bookNumber);
+        };
+    }
+
+    function closePopup() {
+        document.getElementById("popupBg").style.display = "none";
+    }
+
+    /* REMOVER FAVORITO */
+    function removeFavorite(bookNumber) {
+        const updated = favorites.filter(n => n !== bookNumber);
+        localStorage.setItem("favoritos", JSON.stringify(updated));
+        location.reload();
+    }
+
 </script>
 
 </body>

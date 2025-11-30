@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div id="books-container"></div>
+
+
 <title>Leiturar – Menu</title>
 
 <style>
@@ -277,7 +280,7 @@
         <h2 id="popupTitle">Livro</h2>
         <button class="btn-ler" id="btnLer">Ler</button>
         <button class="btn-fav" id="btnFavoritar">Favoritar</button>
-        <button class="btn-questoes" onclick="window.location.href='Question.html'">Questões</button>
+        <button class="btn-questoes" onclick="openQuestions(currentBook)">Questões</button>
         <button class="btn-close" onclick="closePopup()">Fechar</button>
     </div>
 </div>
@@ -332,6 +335,10 @@
             menu.style.display = "none";
         }
     });
+
+    function openQuestions(bookNumber) {
+    window.location.href = `Question.html?livro=${bookNumber}`;
+}
 
 
 </script>

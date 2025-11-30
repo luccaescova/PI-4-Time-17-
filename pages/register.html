@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<title>Leiturar – Registrar</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #1C3B3B;
+        font-family: Arial, sans-serif;
+    }
+
+    .register-container {
+        background-color: #C9FF8F;
+        width: 420px;
+        padding: 30px 35px;
+        border-radius: 10px;
+        border: 2px solid #000;
+        box-shadow: 0 0 14px rgba(0,0,0,0.35);
+        text-align: center;
+    }
+
+    .register-title {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    .register-container input,
+    .register-container select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        font-size: 15px;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .register-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #7CD957;
+        color: black;
+        font-size: 16px;
+        font-weight: bold;
+        border: 2px solid #000;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .register-btn:hover {
+        transform: scale(1.03);
+        background-color: #6bd04c;
+    }
+
+    .login-link {
+        display: block;
+        margin-top: 12px;
+        font-size: 14px;
+        color: black;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .login-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="register-container">
+    <div class="register-title">REGISTRAR</div>
+
+    <form>
+        <input type="text" placeholder="Nome completo" required />
+        <input type="text" placeholder="RA" required />
+        <input type="email" placeholder="E-mail" required />
+        <input type="password" placeholder="Senha" required />
+        <input type="password" placeholder="Confirmar senha" required />
+
+        <button type="submit" class="register-btn">CRIAR CONTA</button>
+
+        
+        <span class="login-link" id="goLogin">Já tenho conta</span>
+    </form>
+</div>
+
+<script>
+    document.getElementById("goLogin").addEventListener("click", () => {
+        window.location.href = "login.html";
+    });
+</script>
+
+</body>
+</html>

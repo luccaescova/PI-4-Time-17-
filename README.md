@@ -66,6 +66,7 @@ BACKEND/
 │   │   ├── config/
 │   │   │   └── seed.ts
 │   │   ├── controllers/
+|   |   |   ├── helpController.ts
 │   │   │   ├── authController.ts
 │   │   │   └── booksController.ts
 │   │   ├── models/
@@ -73,6 +74,7 @@ BACKEND/
 │   │   │   ├── Question.ts
 │   │   │   └── User.ts
 │   │   ├── routes/
+|   |   |   ├── help.ts
 │   │   │   ├── auth.ts
 │   │   │   └── books.ts
 │   │   ├── app.ts
